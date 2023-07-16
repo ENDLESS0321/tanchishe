@@ -6,6 +6,8 @@
 using namespace std;
 using namespace cv;
 #define Width 30
+#define BackgroudWidth 64
+#define BackgroudHeight 36
 class Snake;
 class SnakePart;
 class Snake
@@ -19,7 +21,7 @@ public:
     void move(Point &foodpoint,Mat &img);
     void print(Mat &img);
     void panduan();
-    void ifcontinue(Mat &img);
+    bool ifcontinue();
 };
 class SnakePart
 {
@@ -91,33 +93,30 @@ void Snake::panduan()
         else if(c=='d'&&direction!="left") 
             direction="right";
 }
-void Snake::ifcontinue(Mat &img)
+bool Snake::ifcontinue()
 {
+    bool one=false;
     int i=0;
     if(mySnake[0].point.x>=1920||mySnake[0].point.x<0||mySnake[0].point.y>=1080||mySnake[0].point.y<0)
         {   
-            putText(img,"Game Over!",Point(900,500),0,1,Scalar(0,0,255),2);
-            imshow("Snake Game",img);
-            waitKey();
-            exit(0);
+            one=true;
         }
-        for(i=1;i<length;i++)
+    for(i=1;i<length;i++)
+    {
+        if(mySnake[0].point==mySnake[i].point)
         {
-            if(mySnake[0].point==mySnake[i].point)
-            {
-                putText(img,"Game Over!",Point(900,500),0,1,Scalar(0,0,255),2);
-                imshow("Snake Game",img);
-                waitKey();
-                exit(0);
-            }
+            one=true;
+            break;
         }
+    }
+    return one;
 }
 int main()
 {
-    Mat img(Size(1920,1080),CV_8UC3,Scalar(255,255,255));
+    Mat img(Size(BackgroudWidth*Width,BackgroudHeight*Width),CV_8UC3,Scalar(255,255,255));
     Snake snake1;
     int i=0;
-    Point foodpoint=Point(((rand()%63)+1)*Width,((rand()%35)+1)*Width);
+    Point foodpoint=Point(((rand()%(BackgroudWidth-1))+1)*Width,((rand()%(BackgroudHeight-1))+1)*Width);
     rectangle(img,Rect(foodpoint.x,foodpoint.y,Width,Width),Scalar(0,0,255),-1);
     srand(time(0)); // 更新随机数种子
     while(1)
@@ -128,7 +127,13 @@ int main()
         rectangle(img,Rect(foodpoint.x,foodpoint.y,Width,Width),Scalar(0,0,255),-1);
         snake1.print(img);
         imshow("Snake Game",img);
-        snake1.ifcontinue(img);
+        if(snake1.ifcontinue())
+        {
+            putText(img,"Game Over!",Point(900,500),0,1,Scalar(0,0,255),2);
+            imshow("Snake Game",img);
+            waitKey();
+            break;
+        }
         snake1.panduan();
     }
     return 0;
