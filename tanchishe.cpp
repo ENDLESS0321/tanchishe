@@ -89,7 +89,6 @@ void Snake::print(Mat &img)
     }
     /*打印食物*/
     rectangle(img,Rect(food.x,food.y,Width,Width),Scalar(0,0,255),-1);
-    cout<<food.x<<food.y<<endl;
 }
 void Snake::control()
 {
