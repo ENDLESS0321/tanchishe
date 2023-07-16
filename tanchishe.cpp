@@ -5,6 +5,7 @@
 #include<time.h>
 using namespace std;
 using namespace cv;
+#define Width 30
 class Snake;
 class SnakePart;
 class Snake
@@ -39,25 +40,25 @@ Snake::Snake()
 {
     length = 2;
     direction = "right";
-    mySnake.push_back(SnakePart(Point(60, 30)));
-    mySnake.push_back(SnakePart(Point(30, 30)));
+    mySnake.push_back(SnakePart(Point(2*Width, Width)));
+    mySnake.push_back(SnakePart(Point(Width, Width)));
 }
 void Snake::move(Point &foodpoint, Mat &img)
 {
     Point head=mySnake[0].point;//临时存储蛇头位置
     if (direction=="up")
-        mySnake[0].point.y-=30;
+        mySnake[0].point.y-=Width;
     else if (direction=="down")
-        mySnake[0].point.y+=30;
+        mySnake[0].point.y+=Width;
     else if (direction=="left")
-        mySnake[0].point.x-=30;
+        mySnake[0].point.x-=Width;
     else if (direction=="right")
-        mySnake[0].point.x+=30;
+        mySnake[0].point.x+=Width;
     if(mySnake[0].point==foodpoint)
     {
         length++;
         mySnake.push_back(SnakePart(head));
-        foodpoint=Point(((rand()%63)+1)*30,((rand()%35)+1)*30);//随机生成食物位置（伪随机），1920/30=64,1080/30=36,一共64*36格
+        foodpoint=Point(((rand()%63)+1)*Width,((rand()%35)+1)*Width);//随机生成食物位置（伪随机），1920/30=64,1080/30=36,一共64*36格
     }   
     for(int i=1;i<length;i++)
     {
@@ -65,7 +66,7 @@ void Snake::move(Point &foodpoint, Mat &img)
         mySnake[i].point=head;
         head=p;
     }
-    rectangle(img,Rect(foodpoint.x,foodpoint.y,30,30),Scalar(0,0,255),-1);
+    rectangle(img,Rect(foodpoint.x,foodpoint.y,Width,Width),Scalar(0,0,255),-1);
     putText(img,"Length:",Point(20,30),0,1,Scalar(255,0,0),2);
     putText(img,std::to_string(length),Point(150,30),0,1,Scalar(255,0,0),2);//打印蛇身长度
     print(img);
@@ -75,7 +76,7 @@ void Snake::print(Mat &img)
     int i=0;
     for(i=0;i<length;i++)
     {
-        rectangle(img,Rect(mySnake[i].point.x,mySnake[i].point.y,30,30),Scalar(0,0,0),-1);
+        rectangle(img,Rect(mySnake[i].point.x,mySnake[i].point.y,Width,Width),Scalar(0,0,0),-1);
     }
 }
 void Snake::panduan()
@@ -116,15 +117,15 @@ int main()
     Mat img(Size(1920,1080),CV_8UC3,Scalar(255,255,255));
     Snake snake1;
     int i=0;
-    Point foodpoint=Point(((rand()%63)+1)*30,((rand()%35)+1)*30);
-    rectangle(img,Rect(foodpoint.x,foodpoint.y,30,30),Scalar(0,0,255),-1);
+    Point foodpoint=Point(((rand()%63)+1)*Width,((rand()%35)+1)*Width);
+    rectangle(img,Rect(foodpoint.x,foodpoint.y,Width,Width),Scalar(0,0,255),-1);
     srand(time(0)); // 更新随机数种子
     while(1)
     {
         img=Scalar(255,255,255);
         snake1.move(foodpoint,img);
         // 重新绘制食物
-        rectangle(img,Rect(foodpoint.x,foodpoint.y,30,30),Scalar(0,0,255),-1);
+        rectangle(img,Rect(foodpoint.x,foodpoint.y,Width,Width),Scalar(0,0,255),-1);
         snake1.print(img);
         imshow("Snake Game",img);
         snake1.ifcontinue(img);
