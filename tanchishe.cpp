@@ -20,13 +20,14 @@ public:
     Snake();
     void move(Point &foodpoint,Mat &img);
     void print(Mat &img);
-    void panduan();
+    Point createfood();
+    void control();
     bool ifcontinue();
 };
 class SnakePart
 {
     friend class Snake;
-    friend void Snake::panduan();
+    friend void Snake::control();
 private:
     Point point;
 public:   
@@ -69,19 +70,19 @@ void Snake::move(Point &foodpoint, Mat &img)
         head=p;
     }
     rectangle(img,Rect(foodpoint.x,foodpoint.y,Width,Width),Scalar(0,0,255),-1);
-    putText(img,"Length:",Point(20,30),0,1,Scalar(255,0,0),2);
-    putText(img,std::to_string(length),Point(150,30),0,1,Scalar(255,0,0),2);//打印蛇身长度
     print(img);
 }
 void Snake::print(Mat &img)
 {
     int i=0;
+    putText(img,"Length:",Point(20,30),0,1,Scalar(255,0,0),2);
+    putText(img,std::to_string(length),Point(150,30),0,1,Scalar(255,0,0),2);//打印蛇身长度
     for(i=0;i<length;i++)
     {
         rectangle(img,Rect(mySnake[i].point.x,mySnake[i].point.y,Width,Width),Scalar(0,0,0),-1);
     }
 }
-void Snake::panduan()
+void Snake::control()
 {
     int c=waitKey(300);//等待300ms
         if(c=='w'&&direction!="down")//禁止反向移动，因为反向移动会导致蛇头与第一段蛇身重合，导致判定游戏结束  
@@ -111,6 +112,10 @@ bool Snake::ifcontinue()
     }
     return one;
 }
+Point Snake::createfood()
+{
+    Point foodpoint=Point(((rand()%63)+1)*Width,((rand()%35)+1)*Width);//随机生成食物位置（伪随机），1920/30=64,1080/30=36,一共64*36格
+}
 int main()
 {
     Mat img(Size(BackgroudWidth*Width,BackgroudHeight*Width),CV_8UC3,Scalar(255,255,255));
@@ -134,7 +139,7 @@ int main()
             waitKey();
             break;
         }
-        snake1.panduan();
+        snake1.control();
     }
     return 0;
 }
