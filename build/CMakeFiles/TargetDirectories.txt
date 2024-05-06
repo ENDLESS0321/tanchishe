@@ -1,3 +1,3 @@
-/home/ls/vscode/mycode/misson2/tanchishe/build/CMakeFiles/tanchishe.dir
-/home/ls/vscode/mycode/misson2/tanchishe/build/CMakeFiles/edit_cache.dir
-/home/ls/vscode/mycode/misson2/tanchishe/build/CMakeFiles/rebuild_cache.dir
+/home/domestique/tanchishe/build/CMakeFiles/SnakeGame.dir
+/home/domestique/tanchishe/build/CMakeFiles/edit_cache.dir
+/home/domestique/tanchishe/build/CMakeFiles/rebuild_cache.dir

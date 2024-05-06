@@ -1,4 +1,4 @@
-# Install script for directory: /home/ls/vscode/mycode/misson2/tanchishe
+# Install script for directory: /home/domestique/tanchishe
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -50,5 +50,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/home/ls/vscode/mycode/misson2/tanchishe/build/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/home/domestique/tanchishe/build/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")
